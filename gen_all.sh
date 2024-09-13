@@ -27,7 +27,8 @@ cd -
 
 echo "WebKit.git"
 cd ./WebKit
-git log --date=short --format=%ad > ${DATA}/WebKit.txt
+git log --date=short --format='%ad %ae' > ${DATA}/WebKit_raw.txt
+cat ${DATA}/WebKit_raw.txt | cut -f 1 -d ' ' > ${DATA}/WebKit.txt
 cat ${DATA}/WebKit.txt | ${ROOT}/weekly_commits.py > ${DATA}/WebKit.csv
 cd -
 
@@ -49,7 +50,8 @@ ${ROOT}/compare_rates.py ${DATA}/blink_combined.txt ${DATA}/WebKit.txt > ${DATA}
 
 echo "linux.git"
 cd ./linux
-git log --date=short --format=%ad > ${DATA}/linux.txt
+git log --date=short --format='%ad %ae' > ${DATA}/linux_raw.txt
+cat ${DATA}/linux_raw.txt | cut -f 1 -d ' ' > ${DATA}/linux.txt
 cat ${DATA}/linux.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux.csv
 git log --date=short --format=%ad --merges > ${DATA}/linux_merges_only.txt
 cat ${DATA}/linux_merges_only.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux_merges_only.csv
