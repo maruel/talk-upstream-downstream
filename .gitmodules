@@ -1,0 +1,12 @@
+[submodule "blink"]
+	path = blink
+	url = https://chromium.googlesource.com/chromium/blink/
+[submodule "WebKit"]
+	path = WebKit
+	url = https://github.com/WebKit/WebKit
+[submodule "src"]
+	path = src
+	url = https://chromium.googlesource.com/chromium/src.git
+[submodule "linux"]
+	path = linux
+	url = git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git

@@ -7,13 +7,13 @@ DATA=$ROOT/data
 ## Chromium
 
 echo "src.git"
-cd ./chromium/src
+cd ./src
 git log --date=short --format=%ad > ${DATA}/src.txt
 cat ${DATA}/src.txt | ${ROOT}/weekly_commits.py > ${DATA}/src.csv
 cd -
 
 echo "src.git no-roll"
-cd ./chromium/src
+cd ./src
 git log --date=short --format=%ad --grep '^Roll' --invert-grep > ${DATA}/src_no_roll.txt
 cat ${DATA}/src_no_roll.txt | ${ROOT}/weekly_commits.py > ${DATA}/src_no_roll.csv
 cd -
@@ -24,7 +24,7 @@ ${ROOT}/compare_rates.py ${DATA}/src.txt ${DATA}/src_no_roll.txt > ${DATA}/compa
 ## WebKit - Blink
 
 echo "src.git -- third_party/blink"
-cd ./chromium/src
+cd ./src
 git log --date=short --format=%ad -- third_party/blink > ${DATA}/src_blink.txt
 cat ${DATA}/src_blink.txt | ${ROOT}/weekly_commits.py > ${DATA}/src_blink.csv
 cd -
