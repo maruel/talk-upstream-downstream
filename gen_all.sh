@@ -15,6 +15,7 @@ cat ${DATA}/src_raw.txt | grep -v 'gserviceaccount\.com$' | grep -v '^mdb\.' | c
 cat ${DATA}/src.txt | ${ROOT}/weekly_commits.py > ${DATA}/src.csv
 cat ${DATA}/src_humans.txt | ${ROOT}/weekly_commits.py > ${DATA}/src_humans.csv
 ${ROOT}/compare_rates.py ${DATA}/src.txt ${DATA}/src_humans.txt > ${DATA}/comparison_src.csv
+cat ${DATA}/src_raw.txt | ${ROOT}/committers_yearly.py > ${DATA}/committers_src.csv
 cd -
 
 ## WebKit - Blink
@@ -30,6 +31,7 @@ cd ./WebKit
 git log --date=short --format='%ad %ae' > ${DATA}/WebKit_raw.txt
 cat ${DATA}/WebKit_raw.txt | cut -f 1 -d ' ' > ${DATA}/WebKit.txt
 cat ${DATA}/WebKit.txt | ${ROOT}/weekly_commits.py > ${DATA}/WebKit.csv
+cat ${DATA}/WebKit_raw.txt | ${ROOT}/committers_yearly.py > ${DATA}/committers_WebKit.csv
 cd -
 
 echo "blink.git"
@@ -53,7 +55,11 @@ cd ./linux
 git log --date=short --format='%ad %ae' > ${DATA}/linux_raw.txt
 cat ${DATA}/linux_raw.txt | cut -f 1 -d ' ' > ${DATA}/linux.txt
 cat ${DATA}/linux.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux.csv
-git log --date=short --format=%ad --merges > ${DATA}/linux_merges_only.txt
-cat ${DATA}/linux_merges_only.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux_merges_only.csv
-${ROOT}/compare_rates.py ${DATA}/linux.txt ${DATA}/linux_merges_only.txt > ${DATA}/comparison_linux.csv
+git log --date=short --format='%ad %ae' --merges > ${DATA}/linux_merges_raw.txt
+cat ${DATA}/linux_merges_raw.txt | cut -f 1 -d ' ' > ${DATA}/linux_merges.txt
+git log --date=short --format=%ad --merges > ${DATA}/linux_merges.txt
+cat ${DATA}/linux_merges.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux_merges.csv
+${ROOT}/compare_rates.py ${DATA}/linux.txt ${DATA}/linux_merges.txt > ${DATA}/comparison_linux.csv
+cat ${DATA}/linux_raw.txt | ${ROOT}/committers_yearly.py > ${DATA}/committers_linux.csv
+cat ${DATA}/linux_merges_raw.txt | ${ROOT}/committers_yearly.py > ${DATA}/committers_linux_merges.csv
 cd -
