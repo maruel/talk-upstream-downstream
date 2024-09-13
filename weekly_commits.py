@@ -5,8 +5,9 @@ from datetime import date, timedelta
 import sys
 daily = [date.fromisoformat(l.strip()) for l in sys.stdin]
 counts = Counter(d.isocalendar()[:2] for d in daily)
-top = max(daily)
-cur = min(daily)
+# Necessary because of bad commit dates in linux.git.
+top = min(max(daily), date.today())
+cur = max(min(daily), date(2001, 1, 1))
 print("ISO Week,Commits/week")
 while cur <= top:
   key = cur.isocalendar()[:2]

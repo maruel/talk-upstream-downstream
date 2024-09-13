@@ -8,8 +8,12 @@ Check out with:
 ```
 git clone --recurse-submodules https://github.com/maruel/talk-upstream-downstream
 cd talk-upstream-downstream
+
+# Optionally speed up git-prompt:
 git config bash.showDirtyState false
 git submodule foreach --recursive git config bash.showDirtyState false
+
+# Regen all the files in data/
 ./gen_all.sh
 ```
 

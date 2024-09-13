@@ -8,18 +8,14 @@ DATA=$ROOT/data
 
 echo "src.git"
 cd ./src
-git log --date=short --format=%ad > ${DATA}/src.txt
+# Get logs with accounts to filter robot accounts.
+git log --date=short --format='%ad %ae' > ${DATA}/src_raw.txt
+cat ${DATA}/src_raw.txt | cut -f 1 -d ' ' > ${DATA}/src.txt
+cat ${DATA}/src_raw.txt | grep -v 'gserviceaccount\.com$' | grep -v '^mdb\.' | cut -f 1 -d ' ' > ${DATA}/src_humans.txt
 cat ${DATA}/src.txt | ${ROOT}/weekly_commits.py > ${DATA}/src.csv
+cat ${DATA}/src_humans.txt | ${ROOT}/weekly_commits.py > ${DATA}/src_humans.csv
+${ROOT}/compare_rates.py ${DATA}/src.txt ${DATA}/src_humans.txt > ${DATA}/comparison_src.csv
 cd -
-
-echo "src.git no-roll"
-cd ./src
-git log --date=short --format=%ad --grep '^Roll' --invert-grep > ${DATA}/src_no_roll.txt
-cat ${DATA}/src_no_roll.txt | ${ROOT}/weekly_commits.py > ${DATA}/src_no_roll.csv
-cd -
-
-echo "src comparison"
-${ROOT}/compare_rates.py ${DATA}/src.txt ${DATA}/src_no_roll.txt > ${DATA}/comparison_src.csv
 
 ## WebKit - Blink
 
@@ -55,13 +51,7 @@ echo "linux.git"
 cd ./linux
 git log --date=short --format=%ad > ${DATA}/linux.txt
 cat ${DATA}/linux.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux.csv
-cd -
-
-echo "linux.git merges only"
-cd ./linux
 git log --date=short --format=%ad --merges > ${DATA}/linux_merges_only.txt
 cat ${DATA}/linux_merges_only.txt | ${ROOT}/weekly_commits.py > ${DATA}/linux_merges_only.csv
-cd -
-
-echo "linux comparison"
 ${ROOT}/compare_rates.py ${DATA}/linux.txt ${DATA}/linux_merges_only.txt > ${DATA}/comparison_linux.csv
+cd -
