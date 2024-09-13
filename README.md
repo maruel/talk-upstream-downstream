@@ -8,6 +8,8 @@ Check out with:
 ```
 git clone --recurse-submodules https://github.com/maruel/talk-upstream-downstream
 cd talk-upstream-downstream
+git config bash.showDirtyState false
+git submodule foreach --recursive git config bash.showDirtyState false
 ./gen_all.sh
 ```
 
